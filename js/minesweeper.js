@@ -3,6 +3,7 @@ var rows = 0;
 var columns = 0;
 var mines = 0;
 var testMode = false;
+var firstClick = 0;
 var placed = 0;
 var movesMade;
 var tileObjectArray = [];
@@ -14,14 +15,12 @@ function buildGrid() {
     // Fetch grid and clear out old elements.
     var grid = document.getElementById("minefield");
     grid.innerHTML = "";
-
     var params = setDifficulty();
     rows=params.rows;
     columns=params.columns;
     mines=params.mines;
     // Build DOM Grid
     var tile;
-
     for (var y = 0; y < rows; y++) {
         for (var x = 0; x < columns; x++) {
                     //create a tile object instead with a mine flag.
@@ -59,15 +58,10 @@ function createTileWithObject(tileObject) {
     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click. listen and ignore native functionality
     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
     
-    //using mouseup dblclicks for some reason.
     tile.addEventListener("mousedown", function(){
         handleTileClick(event, tileObject, tile);
     });
 
-    // tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); 
-
-    //get coordinates here of where all tiles are placed
-    // console.log("x : " + tileObject.x + " y: " + tileObject.y + " Is it a mine?" + tileObject.isMine);
     return tile;
 
 }
@@ -75,6 +69,7 @@ function createTileWithObject(tileObject) {
 function startGame() {
     buildGrid();
     startTimer();
+    firstClick = 0;
 }
 
 function smileyDown() {
@@ -94,20 +89,24 @@ function smileyLimbo() {
     smiley.classList.add("limbo");
 }
 
-    // if(firstClick === 1){
-    //     console.log("firstClick");
-    //     setMinesRandomly(mines,tileObjectArray);
-    // }
 function handleTileClick(event, tileObject, tile) {
     //used to make the first click not be a mine/not show any numbers.
-    var movesMade = 0;
+    if(firstClick == 1){
+        console.log("firstClick");
+        setMinesRandomly(mines,tileObjectArray);
+    }
     // Left Click
-    if (event.which === 1 && tileObject.hasFlag !== true) {
-        // console.log("left");
-        // console.log(tile);
+    if (event.which === 1 && tileObject.hasFlag !== true && !tile.classList.contains("clear")) {
         //TODO reveal the tile
         tile.classList.remove("hidden");
         tile.classList.add("clear");
+        console.log("adding to first click")
+        firstClick++;
+
+        ///determine neighbours
+        // console.log(tileObjectArray);
+        console.log(getNeighbours(tileObjectArray, tileObject);
+
 
         //if player hits mine
         if(tileObject.isMine === true && tileObject.hasFlag !== true ){
@@ -194,3 +193,9 @@ function setMinesRandomly(minesStart,tileObjectArray){
 
 }
 
+
+function getNeighbours(tileObjectArray, tileObject){
+
+    // let mineNeighbour = tileObjectArray.find(o => o.isMine === true );
+
+}
