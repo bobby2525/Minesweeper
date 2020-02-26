@@ -6,6 +6,7 @@ var testMode = false;
 var firstClick = 0;
 var placed = 0;
 var movesMade;
+var board;
 // var tileObjectArray = [];
 
 //creating a Tile Object
@@ -37,18 +38,12 @@ function buildGrid() {
     for (var r = 0; r < rows; r++) {
       var row = [];
       for (var c = 0; c < columns; c++) {
-        row.push(new Tile());
+        var tileObject = new Tile();
+        row.push(tileObject);
+        tile = createTileWithObject(tileObject);
+        grid.appendChild(tile);
       }
       board.push(row);
-    }
-
-    // Build DOM Grid
-    var tile;
-    for (var y = 0; y < rows; y++) {
-        for (var x = 0; x < columns; x++) {
-            tile = createTile(x,y);
-            grid.appendChild(tile);
-        }
     }
     
     console.log(board);
@@ -62,31 +57,7 @@ function buildGrid() {
     
 }
 
-// function createTileWithObject(tileObject) {
-
-//     var tile = document.createElement("div");
-
-//     tile.classList.add("tile");
-//     tile.classList.add("hidden");
-
-//     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click. listen and ignore native functionality
-//     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
-    
-//     //using mouseup dblclicks for some reason.
-//     tile.addEventListener("mousedown", function(){
-//         handleTileClick(event, tileObject, tile);
-//     });
-
-//     // tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); 
-
-//     //get coordinates here of where all tiles are placed
-//     // console.log("x : " + tileObject.x + " y: " + tileObject.y + " Is it a mine?" + tileObject.isMine);
-//     return tile;
-
-// }
-
-
-function createTile(x,y) {
+function createTileWithObject(tileObject) {
 
     var tile = document.createElement("div");
 
@@ -98,12 +69,36 @@ function createTile(x,y) {
     
     //using mouseup dblclicks for some reason.
     tile.addEventListener("mousedown", function(){
-        handleTileClick(event, x,y);
+        handleTileClick(event, tileObject, tile);
     });
 
+    // tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); 
+
+    //get coordinates here of where all tiles are placed
+    // console.log("x : " + tileObject.x + " y: " + tileObject.y + " Is it a mine?" + tileObject.isMine);
     return tile;
 
 }
+
+
+// function createTile(x,y) {
+
+//     var tile = document.createElement("div");
+
+//     tile.classList.add("tile");
+//     tile.classList.add("hidden");
+
+//     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click. listen and ignore native functionality
+//     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
+    
+//     //using mouseup dblclicks for some reason.
+//     tile.addEventListener("mousedown", function(){
+//         handleTileClick(event, x,y);
+//     });
+
+//     return tile;
+
+// }
 
 function startGame() {
     buildGrid();
@@ -128,15 +123,17 @@ function smileyLimbo() {
     smiley.classList.add("limbo");
 }
 // event, tileObject, tile
-function handleTileClick() {
+function handleTileClick(event, x, y) {
     //used to make the first click not be a mine/not show any numbers.
-    if(firstClick == 1){
-        console.log("firstClick");
-        // setMinesRandomly(mines,tileObjectArray);
-    }
+    // if(firstClick == 1){
+    //     console.log("firstClick");
+    //     // setMinesRandomly(mines,tileObjectArray);
+    // }
     // Left Click
     if (event.which === 1) {
         console.log("left click");
+        console.log("x" + x);
+        console.log("y" + y);
         //TODO reveal the tile
         // tile.classList.remove("hidden");
         // tile.classList.add("clear");
@@ -160,6 +157,8 @@ function handleTileClick() {
     // right Click
     else if (event.which === 3) {
         console.log("right click");
+        console.log("x" + x);
+        console.log("y" + y);
         //TODO toggle a tile flag
         //if a flag is already set on a tile AND its still active
         //  if(tileObject.hasFlag === true && !tile.classList.contains("clear")){
