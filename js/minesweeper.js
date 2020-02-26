@@ -41,8 +41,7 @@ function buildGrid() {
           }
           board.push(row);
         }
-
-        console.log(board);
+        
     // for (var y = 0; y < rows; y++) {
     //     for (var x = 0; x < columns; x++) {
     //                 //create a tile object instead with a mine flag.
