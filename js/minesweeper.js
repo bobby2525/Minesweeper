@@ -100,13 +100,11 @@ function handleTileClick(event, tileObject, tile) {
         //TODO reveal the tile
         tile.classList.remove("hidden");
         tile.classList.add("clear");
-        console.log("adding to first click")
+        // console.log("adding to first click");
         firstClick++;
 
-        ///determine neighbours
-        // console.log(tileObjectArray);
-        console.log(getNeighbours(tileObjectArray, tileObject);
-
+        ///determine neighbours within the array
+        getNeighbours(tileObjectArray, tileObject);
 
         //if player hits mine
         if(tileObject.isMine === true && tileObject.hasFlag !== true ){
@@ -196,6 +194,56 @@ function setMinesRandomly(minesStart,tileObjectArray){
 
 function getNeighbours(tileObjectArray, tileObject){
 
-    // let mineNeighbour = tileObjectArray.find(o => o.isMine === true );
+
+
+
+//       var x_limit = tileObjectArray.length;
+//   if (x_limit == 0) return null; //matrix is empty
+
+//   var y_limit = tileObjectArray[1].length; //Assumes all rows in the matrix are of same length (otherwise, not a matrix, right?)
+
+//   return {
+//     'tl':((tileObject.x-1 >= 0 && tileObject.y-1 >= 0)?tileObjectArray[x-1][y-1]:null),
+//     'tc':((tileObject.y-1 >= 0)?tileObjectArray[x][y-1]:null),
+//     'tr':((tileObject.x+1 < x_limit && tileObject.y-1 >= 0)?tileObjectArray[x+1][y-1]:null),
+
+//     'ml':((tileObject.x-1 >= 0)?tileObjectArray[x-1][y]:null),
+//     'mr':((tileObject.x+1 < x_limit)?tileObjectArray[x+1][y]:null),
+
+//     'bl':((tileObject.x-1 >= 0 && y+1 < y_limit)?tileObjectArray[x-1][y+1]:null),
+//     'bc':((tileObject.y+1 < y_limit)?tileObjectArray[x][y+1]:null),
+//     'br':((tileObject.x+1 < x_limit && tileObject.y+1 < y_limit)?tileObjectArray[x+1][y+1]:null)
+//   };
+// }
+
+    // var mineCount = 0;
+
+    // if(tileObject.x > -1 && tileObject.y > -1){
+
+    //     var a1 = tileObject.x - 1;
+    //     var a2 = tileObject.y - 1;
+
+    //        this.mines = this.mines.filter((item) => {
+    //             return (item.wineryName.toString().toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+    //             item.wineName.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+    //             item.wineColor.toLowerCase().indexOf(val.toLowerCase()) > -1);
+    //         })
+
+   // }
+
+    // var obj = tileObjectArray.find(o => o.x === '12');
+
+    // console.log("obj here : " + obj);
+    
+    // var found = tileObjectArray.find(function(element) {
+    //     return tileObjectArray.x < 12;
+    // });
+
+    // console.log(found);
+    // for (var i = 0; i < tileObjectArray.length(); i++) {
+        
+    // }
+
+//}
 
 }
