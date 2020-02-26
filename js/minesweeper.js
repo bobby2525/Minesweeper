@@ -31,7 +31,6 @@ function buildGrid() {
 
     // Build DOM Grid
     var tile;
-    
 
     // create a 2D array of tiles
     var board = [];
@@ -63,28 +62,28 @@ function buildGrid() {
     
 }
 
-function createTileWithObject(tileObject) {
+// function createTileWithObject(tileObject) {
 
-    var tile = document.createElement("div");
+//     var tile = document.createElement("div");
 
-    tile.classList.add("tile");
-    tile.classList.add("hidden");
+//     tile.classList.add("tile");
+//     tile.classList.add("hidden");
 
-    tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click. listen and ignore native functionality
-    tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
+//     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click. listen and ignore native functionality
+//     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
     
-    //using mouseup dblclicks for some reason.
-    tile.addEventListener("mousedown", function(){
-        handleTileClick(event, tileObject, tile);
-    });
+//     //using mouseup dblclicks for some reason.
+//     tile.addEventListener("mousedown", function(){
+//         handleTileClick(event, tileObject, tile);
+//     });
 
-    // tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); 
+//     // tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); 
 
-    //get coordinates here of where all tiles are placed
-    // console.log("x : " + tileObject.x + " y: " + tileObject.y + " Is it a mine?" + tileObject.isMine);
-    return tile;
+//     //get coordinates here of where all tiles are placed
+//     // console.log("x : " + tileObject.x + " y: " + tileObject.y + " Is it a mine?" + tileObject.isMine);
+//     return tile;
 
-}
+// }
 
 
 function createTile(x,y) {
@@ -97,8 +96,9 @@ function createTile(x,y) {
     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click. listen and ignore native functionality
     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
     
+    //using mouseup dblclicks for some reason.
     tile.addEventListener("mousedown", function(){
-        handleTileClick(event);
+        handleTileClick(event, x,y);
     });
 
     return tile;
@@ -135,7 +135,8 @@ function handleTileClick() {
         // setMinesRandomly(mines,tileObjectArray);
     }
     // Left Click
-    if (event.which === 1 && tileObject.hasFlag !== true && !tile.classList.contains("clear")) {
+    if (event.which === 1) {
+        console.log("left click");
         //TODO reveal the tile
         // tile.classList.remove("hidden");
         // tile.classList.add("clear");
@@ -158,6 +159,7 @@ function handleTileClick() {
 
     // right Click
     else if (event.which === 3) {
+        console.log("right click");
         //TODO toggle a tile flag
         //if a flag is already set on a tile AND its still active
         //  if(tileObject.hasFlag === true && !tile.classList.contains("clear")){
