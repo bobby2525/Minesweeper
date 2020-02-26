@@ -8,6 +8,13 @@ var placed = 0;
 var movesMade;
 var tileObjectArray = [];
 
+//creating a Tile Object
+function Tile() {
+  this.mined = false;
+  this.revealed = false;
+  this.flagged = false;
+  this.count = 0;
+}
 
 function buildGrid() {
     //empty array
@@ -15,40 +22,68 @@ function buildGrid() {
     // Fetch grid and clear out old elements.
     var grid = document.getElementById("minefield");
     grid.innerHTML = "";
+    var columns = 1;
+    var rows = 1;
     var params = setDifficulty();
     rows=params.rows;
     columns=params.columns;
     mines=params.mines;
     // Build DOM Grid
     var tile;
+
+
+        // create a 2D array of tiles
+        var board = [];
+        for (var r = 0; r < rows; r++) {
+          var row = [];
+          for (var c = 0; c < columns; c++) {
+            row.push(new Tile());
+          }
+          board.push(row);
+        }
+
+        console.log(board);
+    // for (var y = 0; y < rows; y++) {
+    //     for (var x = 0; x < columns; x++) {
+    //                 //create a tile object instead with a mine flag.
+    //                 var tileObject = {
+    //                 "x":x,
+    //                 "y":y,
+    //                 "isMine": false, 
+    //                 "hasFlag": false
+    //             };
+            
+    //         //push all known coords of tiles with isMine, hasFlag, x, y coord into an array.
+    //         tileObjectArray.push(tileObject);
+    //         tile = createTileWithObject(tileObject);
+    //         grid.appendChild(tile);
+
+    //     }
+    // }
+
+    console.log(board);
+
+    // Build DOM Grid
+    var tile;
     for (var y = 0; y < rows; y++) {
         for (var x = 0; x < columns; x++) {
-                    //create a tile object instead with a mine flag.
-                    var tileObject = {
-                    "x":x,
-                    "y":y,
-                    "isMine": false, 
-                    "hasFlag": false
-                };
-            
-            //push all known coords of tiles with isMine, hasFlag, x, y coord into an array.
-            tileObjectArray.push(tileObject);
-            tile = createTileWithObject(tileObject);
+            tile = createTile(x,y);
             grid.appendChild(tile);
-
         }
     }
-
+    
     var style = window.getComputedStyle(tile);
+
     var width = parseInt(style.width.slice(0, -2));
     var height = parseInt(style.height.slice(0, -2));
+    
     grid.style.width = (columns * width) + "px";
     grid.style.height = (rows * height) + "px";
     
 }
 
 
-function createTileWithObject(tileObject) {
+function createTile(x,y) {
 
     var tile = document.createElement("div");
 
@@ -59,7 +94,7 @@ function createTileWithObject(tileObject) {
     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click. listen and ignore native functionality
     
     tile.addEventListener("mousedown", function(){
-        handleTileClick(event, tileObject, tile);
+        handleTileClick(event);
     });
 
     return tile;
@@ -88,32 +123,32 @@ function smileyLimbo() {
     smiley.classList.remove("face_down");
     smiley.classList.add("limbo");
 }
-
-function handleTileClick(event, tileObject, tile) {
+// event, tileObject, tile
+function handleTileClick() {
     //used to make the first click not be a mine/not show any numbers.
     if(firstClick == 1){
         console.log("firstClick");
-        setMinesRandomly(mines,tileObjectArray);
+        // setMinesRandomly(mines,tileObjectArray);
     }
     // Left Click
     if (event.which === 1 && tileObject.hasFlag !== true && !tile.classList.contains("clear")) {
         //TODO reveal the tile
-        tile.classList.remove("hidden");
-        tile.classList.add("clear");
-        // console.log("adding to first click");
-        firstClick++;
+        // tile.classList.remove("hidden");
+        // tile.classList.add("clear");
+        // // console.log("adding to first click");
+        // firstClick++;
 
-        ///determine neighbours within the array
-        getNeighbours(tileObjectArray, tileObject);
+        // ///determine neighbours within the array
+        // getNeighbours(tileObjectArray, tileObject);
 
-        //if player hits mine
-        if(tileObject.isMine === true && tileObject.hasFlag !== true ){
-            console.log("hit mine");
-            tile.classList.remove("clear");
-            tile.classList.remove("hidden");
-            tile.classList.add("mine_hit");
-            smileyDown();
-        }
+        // //if player hits mine
+        // if(tileObject.isMine === true && tileObject.hasFlag !== true ){
+        //     console.log("hit mine");
+        //     tile.classList.remove("clear");
+        //     tile.classList.remove("hidden");
+        //     tile.classList.add("mine_hit");
+        //     smileyDown();
+        // }
 
     }
 
@@ -121,19 +156,19 @@ function handleTileClick(event, tileObject, tile) {
     else if (event.which === 3) {
         //TODO toggle a tile flag
         //if a flag is already set on a tile AND its still active
-         if(tileObject.hasFlag === true && !tile.classList.contains("clear")){
-            tileObject.hasFlag = false;
-            tile.classList.remove("clear");
-            tile.classList.add("hidden");
-            tile.classList.remove("flag");
-        //if no flag is set on a tile  AND its still active
-        }else if(tileObject.hasFlag === false && !tile.classList.contains("clear")){
-            tileObject.hasFlag = true;
-            tile.classList.remove("hidden");
-            tile.classList.remove("clear");
-            tile.classList.add("flag");
-        }
-        else{}
+        //  if(tileObject.hasFlag === true && !tile.classList.contains("clear")){
+        //     tileObject.hasFlag = false;
+        //     tile.classList.remove("clear");
+        //     tile.classList.add("hidden");
+        //     tile.classList.remove("flag");
+        // //if no flag is set on a tile  AND its still active
+        // }else if(tileObject.hasFlag === false && !tile.classList.contains("clear")){
+        //     tileObject.hasFlag = true;
+        //     tile.classList.remove("hidden");
+        //     tile.classList.remove("clear");
+        //     tile.classList.add("flag");
+        // }
+        // else{}
     }
     // Middle Click
     else if (event.which === 2) {
